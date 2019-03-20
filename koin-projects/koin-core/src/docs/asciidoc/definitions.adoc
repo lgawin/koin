@@ -32,7 +32,7 @@ val myModule = module {
 
 === Defining your component within a lambda
 
-`single`, `factory` & `scoped` keywords help you declare your components through a lambda expression. this lambda describe
+`single`, `factory` & `scoped` keywords help you declare your components through a lambda expression. This lambda describes
 the way that you build your component. Usually we instantiate components via their constructors, but you can also use any expression.
 
 `single { Class constructor // Kotlin expression }`
@@ -96,7 +96,7 @@ Let's take an example with a class and implemented interface:
 [source,kotlin]
 ----
 // Service interface
-interface Service{
+interface Service {
 
     fun doSomething()
 }
@@ -152,13 +152,13 @@ Let's take an example with a class and interface:
 [source,kotlin]
 ----
 // Service interface
-interface Service{
+interface Service {
 
     fun doSomething()
 }
 
 // Service Implementation
-class ServiceImp() : Service{
+class ServiceImp() : Service {
 
     fun doSomething() { ... }
 }
@@ -218,11 +218,11 @@ In any `single`, `factory` or `scope` definition, you can use injection paramete
 class Presenter(val view : View)
 
 val myModule = module {
-    single{ (view : View) -> Presenter(view) }
+    single { (view : View) -> Presenter(view) }
 }
 ----
 
-In contrary to resolved dependencies (resolved with with `get()`), injection parameters are *parameters passed through the resolution API*.
+In contrary to resolved dependencies (resolved with `get()`), injection parameters are *parameters passed through the resolution API*.
 This means that those parameters are values passed with `get()` and `by inject()`, with the `parametersOf` function:
 
 
@@ -255,7 +255,7 @@ val myModuleA = module {
 val myModuleB = module {
 
     // eager creation for this definition
-    single<Service>(createAtStart=true) { TestServiceImp() }
+    single<Service>(createAtStart = true) { TestServiceImp() }
 }
 ----
 
@@ -269,7 +269,7 @@ val myModuleA = module {
 
 val myModuleB = module(createAtStart=true) {
 
-    single<Service>{ TestServiceImp() }
+    single<Service> { TestServiceImp() }
 }
 ----
 
@@ -279,7 +279,7 @@ The `startKoin` function will automatically create definitions instances flagged
 ----
 // Start Koin modules
 startKoin {
-    modules(myModuleA,myModuleB)
+    modules(myModuleA, myModuleB)
 }
 ----
 
@@ -291,7 +291,7 @@ if you need to load some definition at a special time (in a background thread in
 
 ==== Dealing with generics
 
-Koin definitions doesn't take in accounts generics type argument. For example, the module below tries to define 2 definitions of List:
+Koin definitions doesn't take into account generics type argument. For example, the module below tries to define 2 definitions of List:
 
 [source,kotlin]
 ----
@@ -303,13 +303,13 @@ module {
 
 Koin won't start with such definitions, understanding that you want to override one definition for the other.
 
-To allow you, use the 2 definitions you will have to differentiate them via their name, or location (module). For example:
+To allow you to use the 2 definitions, you will have to differentiate them via their name, or location (module). For example:
 
 [source,kotlin]
 ----
 module {
-    single(name="Ints") { ArrayList<Int>() }
-    single(name="Strings") { ArrayList<String>() }
+    single(name = "Ints") { ArrayList<Int>() }
+    single(name = "Strings") { ArrayList<String>() }
 }
 ----
 
