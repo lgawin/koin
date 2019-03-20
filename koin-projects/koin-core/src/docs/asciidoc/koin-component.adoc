@@ -36,7 +36,7 @@ fun main(vararg args : String){
 
 Here is how we can write our `MyComponent` to retrieve instances from Koin container.
 
-.Use get() & by inject() to inject MyService instance
+.Use `get()` & `by inject()` to inject MyService instance
 [source,kotlin]
 ----
 class MyComponent : KoinComponent {
@@ -46,7 +46,7 @@ class MyComponent : KoinComponent {
 
     // or
     // eager inject Koin instance
-    val myService : MyService get()
+    val myService : MyService = get()
 }
 ----
 
@@ -73,12 +73,12 @@ Koin offers two ways of retrieving instances from the Koin container:
 val myService : MyService by inject()
 
 // retrieve directly the instance
-val myService : MyService get()
+val myService : MyService = get()
 ----
 
 [NOTE]
 ====
-The lazy inject form is better to define property that need lazy evaluation.
+The lazy inject form is better to define property that needs lazy evaluation.
 ====
 
 === Resolving instance from its name
@@ -92,8 +92,8 @@ Example of module using definitions names:
 [source,kotlin]
 ----
 val module = module {
-    single(name="A") { ComponentA() }
-    single(name="B") { ComponentB(get()) }
+    single(name = "A") { ComponentA() }
+    single(name = "B") { ComponentB(get()) }
 }
 
 class ComponentA
