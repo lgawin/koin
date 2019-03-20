@@ -39,7 +39,7 @@ val moduleB = module {
 
 [NOTE]
 ====
-Koin does't have any import concept. Koin definitions are lazy: a Koin definition is started
+Koin doesn't have any import concept. Koin definitions are lazy: a Koin definition is started
 with Koin container but is not instantiated. An instance is created only a request for its type
 has been done.
 ====
@@ -49,8 +49,8 @@ We just have to declare list of used modules when we start our Koin container:
 [source,kotlin]
 ----
 // Start Koin with moduleA & moduleB
-startKoin{
-    modules(moduleA,moduleB)
+startKoin {
+    modules(moduleA, moduleB)
 }
 ----
 
@@ -93,18 +93,18 @@ Then we just need to launch Koin with the right combination of modules:
 ----
 // Load Repository + Local Datasource definitions
 startKoin {
-    modules(repositoryModule,localDatasourceModule)
+    modules(repositoryModule, localDatasourceModule)
 }
 
 // Load Repository + Remote Datasource definitions
 startKoin {
-    modules(repositoryModule,remoteDatasourceModule)
+    modules(repositoryModule, remoteDatasourceModule)
 }
 ----
 
 === Overriding a definition or a module
 
-Koin won't allow you to redefinition an already existing definition (type,name,path ...). You will an an error if you try this:
+Koin won't allow you to redefine an already existing definition (type,name,path ...). You will get an error if you try this:
 
 .Override not allowed
 [source,kotlin]
@@ -121,7 +121,7 @@ val myModuleB = module {
 
 // Will throw an BeanOverrideException
 startKoin {
-    modules(myModuleA,myModuleB)
+    modules(myModuleA, myModuleB)
 }
 ----
 
@@ -138,7 +138,7 @@ val myModuleA = module {
 val myModuleB = module {
 
     // override for this definition
-    single<Service>(override=true) { TestServiceImp() }
+    single<Service>(override = true) { TestServiceImp() }
 }
 ----
 
@@ -151,7 +151,7 @@ val myModuleA = module {
 }
 
 // Allow override for all definitions from module
-val myModuleB = module(override=true) {
+val myModuleB = module(override = true) {
 
     single<Service> { TestServiceImp() }
 }
@@ -159,6 +159,6 @@ val myModuleB = module(override=true) {
 
 [IMPORTANT]
 ====
-Order matters when listing modules and overriding definitions. You must have your overriding definitions in last of your module list.
+Order matters when listing modules and overriding definitions. You must have your overriding definitions in the last of your module list.
 ====
 
