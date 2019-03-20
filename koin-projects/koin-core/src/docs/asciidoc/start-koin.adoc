@@ -4,7 +4,7 @@ Koin is a DSL, a lightweight container and a pragmatic API. Once you have declar
 
 === The startKoin function
 
-The `startKoin` function is the main entry point to launch Koin container. It need a *list of Koin modules* to run.
+The `startKoin` function is the main entry point to launch Koin container. It needs a *list of Koin modules* to run.
 Modules are loaded and definitions are ready to be resolved by the Koin container.
 
 .Starting Koin
@@ -26,7 +26,7 @@ Your Koin container can have several options:
 
 [IMPORTANT]
 ====
-The `startKoin` can't be called more than once. If you need several point to load modules, use the `loadKoinModules` function.
+The `startKoin` can't be called more than once. If you need several points to load modules, use the `loadKoinModules` function.
 ====
 
 
@@ -44,13 +44,13 @@ This function is interesting for SDK makers who want to use Koin, because they d
 .Load Koin modules
 [source,kotlin]
 ----
-loadKoinModules(module1,module2 ...)
+loadKoinModules(module1, module2, ...)
 ----
 
 
 === Koin context isolation
 
-For SDK Makers, you can also work with Koin in a non global way: use Koin for the DI of your library and avoid any conflict by people using your library and Koin by isolating your context.
+For SDK Makers, you can also work with Koin in a non global way: use Koin for the DI of your library and avoid any conflicts by people using your library and Koin by isolating your context.
 
 In a standard way, we can start Koin like that:
 
@@ -86,27 +86,24 @@ You will have to keep your `myApp` instance avilable in your library and pass it
 object MyKoinContext {
     var koinApp : KoinApplication? = null
 }
-
-// Register the Koin context
-MyKoinContext.koinApp = KoinApp
 ----
 
 [source,kotlin]
 ----
 abstract class CustomKoinComponent : KoinComponent {
-    // Override default Koin instance, intially target on GlobalContext to yours
-    override fun getKoin(): Koin = MyKoinContext?.koinApp.koin
+    // Override default Koin instance, initially target on GlobalContext to yours
+    override fun getKoin(): Koin = MyKoinContext.koinApp?.koin ?: super.getKoin()
 }
 ----
 
-And now, you register your context and run your own isolated Koin components:
+And now, you can register your context and run your own isolated Koin components:
 
 [source,kotlin]
 ----
 // Register the Koin context
 MyKoinContext.koinApp = myApp
 
-class ACustomKoinComponent : CustomKoinComponent(){
+class ACustomKoinComponent : CustomKoinComponent() {
     // inject & get will target MyKoinContext
 }
 ----
