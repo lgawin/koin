@@ -12,7 +12,7 @@ Below is an example of injection parameters. We established that we need a `view
 class Presenter(val view : View)
 
 val myModule = module {
-    single{ (view : View) -> Presenter(view) }
+    single { (view : View) -> Presenter(view) }
 }
 ----
 
@@ -40,20 +40,21 @@ If we want to have multiple parameters in our definition, we can use the *destru
 class Presenter(val view : View, id : String)
 
 val myModule = module {
-    single{ (view : View, id : String) -> Presenter(view,id) }
+    single { (view : View, id : String) -> Presenter(view,id) }
 }
 ----
 
-In a `KoinComponent`, just use the `parametersOf` function with your arguments like below:
+In a `KoinComponent`, just use the `parametersOf()` function with your arguments like below:
 
 [source,kotlin]
 ----
 class MyComponent : View, KoinComponent {
 
-    val id : String ...
+    val id : String 
+    ...
 
     // inject with view & id
-    val presenter : Presenter by inject { parametersOf(this,id) }
+    val presenter : Presenter by inject { parametersOf(this, id) }
 }
 ----
 
