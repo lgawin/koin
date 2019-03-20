@@ -1,6 +1,6 @@
 == Using Scopes
 
-Koin brings a simple API to let you define instances that are tied to a limit lifetime.
+Koin brings a simple API to let you define instances that are tied to a limited lifetime.
 
 === What is a scope?
 
@@ -12,9 +12,9 @@ When the scope context ends, any objects bound under that scope cannot be inject
 
 By default in Koin, we have 3 kind of scopes:
 
-- `single` definition, create an object that persistent with the entire container lifetime (can't be dropped).
-- `factory` definition, create a new object each time. Short live. No persistence in the container (can't be shared).
-- `scoped` definition, create an object that persistent tied to the associated scope lifetime.
+- `single` definition, create an object that lives throughout entire lifetime of the container (can't be dropped).
+- `factory` definition, create a new object each time, short-lived, not persisted in the container (can't be shared).
+- `scoped` definition, create an object tied to the associated scope lifetime.
 
 To declare a scoped definition, use the `scoped` function like follow:
 
@@ -30,7 +30,7 @@ A scope gathers scoped definitions as a logical unit of time:
 [source,kotlin]
 ----
 module {
-    scope("A Scope Name"){
+    scope("A Scope Name") {
         scoped { Presenter() }
         // ...
     }
@@ -41,7 +41,7 @@ module {
 
 A scope instance can be created with as follow: `val scope = koin.createScope("myScope")`. The "myScope" string here, is the id of your scope instance. 
 
-To resolve a dependency using the scope we can do it like:
+To resolve a dependency using the scope we can do it like this:
 
 * `val presenter = scope.get<Presenter>()` - directly using the get/inject functions from the scope instance
 * `val presenter = get<Presenter>(scope = scope)` - by passing yoru scope instance to any get/inject function
@@ -64,7 +64,7 @@ module {
 
 module {
     // define a scope "A_SCOPE_NAME"
-    scope("A_SCOPE_NAME"){
+    scope("A_SCOPE_NAME") {
         // scoped definition tied to "A_SCOPE_NAME" scope
         // also known as closed scoped definition 
         scoped { Presenter() }
@@ -82,12 +82,12 @@ val scope = koin.createScope("myScope")
 val presenter = scope.get<Presenter>()
 ----
 
-in the case of scoped definition tied to a scope, we have to declare a the scope instance like follow:
+in the case of scoped definition tied to a scope, we have to declare scope instance like follow:
 
 [source,kotlin]
 ----
 // create scope instance "myScope" for scope "A_SCOPE_NAME"
-val scope = koin.createScope("myScope","A_SCOPE_NAME")
+val scope = koin.createScope("myScope", "A_SCOPE_NAME")
 // resolve presenter instance
 val presenter = scope.get<Presenter>()
 ----
@@ -121,15 +121,15 @@ Using the id, it's then possible to have several instances of the same scope:
 [source,kotlin]
 ----
 // create an closed scope instance "myScope1" for scope "A_SCOPE_NAME"
-val myScope1 = koin.createScope("myScope1","A_SCOPE_NAME")
+val myScope1 = koin.createScope("myScope1", "A_SCOPE_NAME")
 // create an closed scope instance "myScope2" for scope "A_SCOPE_NAME"
-val myScope2 = koin.createScope("myScope2","A_SCOPE_NAME")
+val myScope2 = koin.createScope("myScope2", "A_SCOPE_NAME")
 ----
 
 
 === Resolving dependencies within a scope
 
-The intestest of a scope is to define a common logical unit of time for scoped definitions. It's allow also to resolve definitions from within the given scope
+The intestest of a scope is to define a common logical unit of time for scoped definitions. It's allowed also to resolve definitions from within the given scope
 
 [source,kotlin]
 ----
@@ -140,7 +140,7 @@ class ComponentB(val a : ComponentA)
 // module with scope
 module {
     
-    scope("A_SCOPE_NAME"){
+    scope("A_SCOPE_NAME") {
         scoped { ComponentA() }
         // will resolve from current scope instance
         scoped { ComponentB(get()) }
@@ -153,7 +153,7 @@ The depedendecy resolution is then straight forward:
 [source,kotlin]
 ----
 // create an closed scope instance "myScope1" for scope "A_SCOPE_NAME"
-val myScope1 = koin.createScope("myScope1","A_SCOPE_NAME")
+val myScope1 = koin.createScope("myScope1", "A_SCOPE_NAME")
 
 // from the same scope
 val componentA = myScope1.get<ComponentA>()
